@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<layers>
+  <layer
+      name="tournai.urban.dataimport"
+      interface="tournai.urban.dataimport.interfaces.ITournaiUrbanDataimportLayer"
+  />
+</layers>
