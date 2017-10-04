@@ -1,11 +1,6 @@
 <?xml version="1.0"?>
 <import-steps>
 
- <import-step
-    id="tournai.urban.dataimport-tournaiUrbawebImport"
-    handler="tournai.urban.dataimport.importer.importTournaiUrbaweb"
-    title="Urbaweb import for Tournai">
-  Urbaweb import for Tournai
- </import-step>
+
 
 </import-steps>

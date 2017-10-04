@@ -13,6 +13,11 @@
 
     <!-- Include configuration for dependencies listed in setup.py -->
     <includeDependencies package="." />
+    <include package=".architects" />
+    <include package=".notaryletters" />
+    <include package=".notaries" />
+    <include package=".parcellings" />
+    <include package=".csv" />
 
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile
@@ -40,7 +45,7 @@
     <adapter
         for="tournai.urban.dataimport.settings.TournaiImporterSettingsForm"
         factory=".settings.TournaiImporterFromImportSettings"
-        provides="imio.urban.dataimport.agorawin.interfaces.IAgorawinDataImporter"
+        provides="imio.urban.dataimport.csv.interfaces.ICSVImporter"
     />
 
 </configure>

@@ -2,11 +2,11 @@
 
 from zope.interface import implements
 
-from imio.urban.dataimport.agorawin.importer import AgorawinDataImporter
+from imio.urban.dataimport.csv.importer import ICSVImporter
 from tournai.urban.dataimport.interfaces import ITournaiDataImporter
 
 
-class TournaiDataImporter(AgorawinDataImporter):
+class TournaiDataImporter(ICSVImporter):
     """ """
 
     implements(ITournaiDataImporter)
