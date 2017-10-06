@@ -139,6 +139,7 @@ def create_notary_letters():
         pass
 
     containerNotaryLetters = api.content.get(path='/urban/notaryletters')
+    catalog = api.portal.get_tool('portal_catalog')
     for (dirpath, dirnames, filenames) in os.walk(IMPORT_FOLDER_PATH + '/documents'):
         # print(root, dirs, files)
         for notaryletter_file in filenames:
@@ -147,8 +148,8 @@ def create_notary_letters():
             cpt_nl += 1
             print "PROCESSING NOTARY LETTER %i" % cpt_nl
 
-            # if cpt_nl < 200 and cpt_nl > 220:
-            #     break
+            if cpt_nl > 0 and cpt_nl < 50:
+                break
             file_suffix = notaryletter_file.replace(".doc", "").replace(".docx", "").replace(".DOC", "")
             id_notary_letter = idnormalizer.normalize('notary_letter%s' + file_suffix)
 
@@ -156,7 +157,6 @@ def create_notary_letters():
                 object_id = containerNotaryLetters.invokeFactory('NotaryLetter', id=id_notary_letter,
                                                     title="ARCHIVE NOT " + file_suffix,
                                                     reference="ARCHIVE NOT " + file_suffix)
-                catalog = api.portal.get_tool('portal_catalog')
                 nl = catalog(portal_type='NotaryLetter', id=id_notary_letter)
 
                 if nl:
@@ -194,15 +194,15 @@ def create_notary_letters():
                         api.content.create(container=current_letter, type='File',
                                            id=idnormalizer.normalize("file" + file_name), title=file_name,
                                            file=doc_content)
-    with open("nl_parcel_file_found.csv", "a") as file:
-        file.write("Doc trouvés :," + str(cpt_nl) + "\n")
-        file.write("Doc avec parcelle trouvée :," + str(cptFound_nl) + "\n")
-        file.write("Doc avec parcelle non trouvée :," + str(cptNotFound_nl) + "\n")
-        if not cptNotFound_nl:
-            file.write("Pourcentage de réussite :," + str(100) + "%\n")
-        elif cptFound_nl and cpt_nl:
-            percentFound = cptFound_nl / cpt_nl * 100
-            file.write("Pourcentage de réussite :," + str(percentFound) + "%\n")
+    # with open("nl_parcel_file_found.csv", "a") as file:
+    #     file.write("Doc trouvés :," + str(cpt_nl) + "\n")
+    #     file.write("Doc avec parcelle trouvée :," + str(cptFound_nl) + "\n")
+    #     file.write("Doc avec parcelle non trouvée :," + str(cptNotFound_nl) + "\n")
+    #     if not cptNotFound_nl:
+    #         file.write("Pourcentage de réussite :," + str(100) + "%\n")
+    #     elif cptFound_nl and cpt_nl:
+    #         percentFound = cptFound_nl / cpt_nl * 100
+    #         file.write("Pourcentage de réussite :," + str(percentFound) + "%\n")
 
 
 def read_file(complete_path):
