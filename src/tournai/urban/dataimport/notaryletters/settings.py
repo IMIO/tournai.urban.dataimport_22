@@ -20,7 +20,7 @@ class ArchitectsImporterFromImportSettings(CSVImporterFromImportSettings):
         settings = super(ArchitectsImporterFromImportSettings, self).get_importer_settings()
 
         csv_settings = {
-            'csv_filename': 'NL.csv',
+            'csv_filename': 'NL',
             'key_column': 'id',
         }
 
