@@ -148,8 +148,8 @@ def create_notary_letters():
             cpt_nl += 1
             print "PROCESSING NOTARY LETTER %i" % cpt_nl
 
-            if cpt_nl > 50:
-                break
+            # if cpt_nl > 50:
+            #     break
             file_suffix = notaryletter_file.replace(".doc", "").replace(".docx", "").replace(".DOC", "")
             id_notary_letter = idnormalizer.normalize('notary_letter%s' + file_suffix)
 
