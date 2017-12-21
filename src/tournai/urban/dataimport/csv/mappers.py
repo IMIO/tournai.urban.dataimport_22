@@ -86,7 +86,7 @@ class PortalTypeMapper(Mapper):
                 portal_type = 'EnvClassThree'
             elif genre.startswith('CU'):
                 portal_type = 'UrbanCertificateOne'
-            elif genre.startswith('DIV') :
+            elif genre.startswith('DIV'):
                 portal_type = 'Division'
             elif genre.startswith('DU'):
                 portal_type = 'Declaration'
@@ -973,7 +973,9 @@ class DepositDateMapper(Mapper):
 
 class DepositEventIdMapper(Mapper):
     def mapId(self, line):
-        return 'deposit'
+        licence = self.importer.current_containers_stack[-1]
+        eventtype_id = self.getValueMapping('eventtype_id_map')[licence.portal_type]['deposit_event']
+        return eventtype_id
 
 
 

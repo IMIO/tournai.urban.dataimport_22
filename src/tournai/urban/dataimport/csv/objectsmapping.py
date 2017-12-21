@@ -7,7 +7,7 @@ OBJECTS_NESTING = [
     (
         'LICENCE', [
             ('CONTACT', []),
-            # ('PARCEL', []),
+            ('PARCEL', []),
             ('DEPOSIT EVENT', []),
             ('DECISION EVENT', []),
             # ('DOCUMENTS', []),
