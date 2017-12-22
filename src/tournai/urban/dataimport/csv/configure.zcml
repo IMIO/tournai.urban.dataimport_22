@@ -7,7 +7,7 @@
     <adapter
         for="imio.urban.dataimport.interfaces.IImportSettingsForm"
         factory=".settings.TournaiCsvImporterFromImportSettings"
-        provides="imio.urban.dataimport.csv.interfaces.ICSVImporter"
+        provides="tournai.urban.dataimport.interfaces.ITournaiDataImporter"
         name="tournai csv licences"
     />
 
