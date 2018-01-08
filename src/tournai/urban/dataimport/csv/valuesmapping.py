@@ -108,6 +108,7 @@ VALUES_MAPS = {
         "AD": "Aurore Derumier",
         "NC": "Nabila Charara",
         "CF": "Christine Froidbise",
+        "CF ": "Christine Froidbise",
         "JH": "Joel Hache",
         "CDE": "Christophe Delcourt",
         "BL": "Bernadette Larcy",
