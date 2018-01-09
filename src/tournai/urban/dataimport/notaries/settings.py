@@ -19,7 +19,7 @@ class NotariesImporterFromImportSettings(CSVImporterFromImportSettings):
         settings = super(NotariesImporterFromImportSettings, self).get_importer_settings()
 
         csv_settings = {
-            'csv_filename': 'Notaires.csv',
+            'csv_filename': 'Notaires',
             'key_column': 'NOM',
         }
 
