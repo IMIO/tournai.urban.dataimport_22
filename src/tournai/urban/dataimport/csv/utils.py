@@ -142,7 +142,7 @@ def create_notary_letters():
         pass
 
     config = configparser.ConfigParser()
-    config.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'utils.cfg'))
+    config.read(os.path.join(os.getcwd(), 'src/imio.urban.dataimport/src/imio/urban/dataimport', 'utils.cfg'))
     commit_range = config.get("transaction-commit", "range")
 
     containerNotaryLetters = api.content.get(path='/urban/notaryletters')
