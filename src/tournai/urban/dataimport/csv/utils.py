@@ -199,8 +199,8 @@ def create_notary_letters():
                         api.content.create(container=current_letter, type='File',
                                            id=idnormalizer.normalize("file" + file_name), title=file_name,
                                            file=doc_content)
-        if cpt_nl % int(commit_range) == 0:
-            transaction.commit()
+            if cpt_nl and cpt_nl % int(commit_range) == 0:
+                transaction.commit()
     # with open("nl_parcel_file_found.csv", "a") as file:
     #     file.write("Doc trouvés :," + str(cpt_nl) + "\n")
     #     file.write("Doc avec parcelle trouvée :," + str(cptFound_nl) + "\n")
