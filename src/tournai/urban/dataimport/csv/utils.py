@@ -2,6 +2,7 @@
 
 import csv
 import os
+import ConfigParser as configparser
 
 import unicodedata
 from plone.i18n.normalizer import idnormalizer
