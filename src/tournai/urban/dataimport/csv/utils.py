@@ -6,6 +6,8 @@ import os
 import unicodedata
 from plone.i18n.normalizer import idnormalizer
 from plone import api
+import transaction
+
 from Products.CMFPlone.utils import normalizeString
 
 from imio.urban.dataimport.config import IMPORT_FOLDER_PATH
@@ -138,6 +140,10 @@ def create_notary_letters():
     with open("nl_parcel_file_found.csv", "w"):
         pass
 
+    config = configparser.ConfigParser()
+    config.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'utils.cfg'))
+    commit_range = config.get("transaction-commit", "range")
+
     containerNotaryLetters = api.content.get(path='/urban/notaryletters')
     catalog = api.portal.get_tool('portal_catalog')
     for (dirpath, dirnames, filenames) in os.walk(IMPORT_FOLDER_PATH + '/documents'):
@@ -148,8 +154,6 @@ def create_notary_letters():
             cpt_nl += 1
             print "PROCESSING NOTARY LETTER %i" % cpt_nl
 
-            # if cpt_nl > 50:
-            #     break
             file_suffix = notaryletter_file.replace(".doc", "").replace(".docx", "").replace(".DOC", "")
             id_notary_letter = idnormalizer.normalize('notary_letter%s' + file_suffix)
 
@@ -194,6 +198,8 @@ def create_notary_letters():
                         api.content.create(container=current_letter, type='File',
                                            id=idnormalizer.normalize("file" + file_name), title=file_name,
                                            file=doc_content)
+        if cpt_nl % int(commit_range) == 0:
+            transaction.commit()
     # with open("nl_parcel_file_found.csv", "a") as file:
     #     file.write("Doc trouvés :," + str(cpt_nl) + "\n")
     #     file.write("Doc avec parcelle trouvée :," + str(cptFound_nl) + "\n")
