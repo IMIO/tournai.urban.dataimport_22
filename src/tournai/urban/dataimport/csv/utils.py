@@ -17,9 +17,12 @@ from imio.urban.dataimport.utils import identify_parcel_abbreviations, parse_cad
     guess_cadastral_reference
 from tournai.urban.dataimport.csv import valuesmapping
 
+POSTGRES_INT_LIMIT = 2147483647
+
 cpt_nl = 0
 cptFound_nl = 0
 cptNotFound_nl = 0
+
 
 def get_state_from_licences_dates(date_licence, date_refused, date_licence_recourse, date_refused_recourse):
 
@@ -31,7 +34,6 @@ def get_state_from_licences_dates(date_licence, date_refused, date_licence_recou
         return 'refuse'
     elif date_licence:
         return 'accept'
-
 
 
 def get_date_from_licences_dates(date_licence, date_refused, date_licence_recourse, date_refused_recourse):
@@ -304,8 +306,12 @@ def create_parcel_in_notary_letter(parcel, container):
     parcel_args = parcel.to_dict()
     parcel_args.pop('partie')
 
+    if isinstance(parcel_args['puissance'], int) and parcel_args['puissance'] > POSTGRES_INT_LIMIT:
+        parcel_args['puissance'] = 0
+
     for k, v in parcel_args.iteritems():
         searchview.context.REQUEST[k] = v
+
     # check if we can find a parcel in the db cadastre with these infos
     found = searchview.search_parcels_custom(**parcel_args)
     if not found:
