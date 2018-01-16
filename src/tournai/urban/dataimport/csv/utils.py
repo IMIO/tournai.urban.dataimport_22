@@ -309,12 +309,12 @@ def create_parcel_in_notary_letter(parcel, container):
     if isinstance(parcel_args['puissance'], str) \
             and represents_int(parcel_args['puissance']) \
             and int(parcel_args['puissance']) > POSTGRES_INT_LIMIT:
-        parcel_args['puissance'] = 0
+        parcel_args['puissance'] = ''
 
     if isinstance(parcel_args['radical'], str) \
             and represents_int(parcel_args['radical']) \
             and int(parcel_args['radical']) > POSTGRES_INT_LIMIT:
-        parcel_args['radical'] = 0
+        parcel_args['radical'] = ''
 
     for k, v in parcel_args.iteritems():
         searchview.context.REQUEST[k] = v
