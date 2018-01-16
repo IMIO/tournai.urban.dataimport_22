@@ -306,7 +306,9 @@ def create_parcel_in_notary_letter(parcel, container):
     parcel_args = parcel.to_dict()
     parcel_args.pop('partie')
 
-    if isinstance(parcel_args['puissance'], int) and parcel_args['puissance'] > POSTGRES_INT_LIMIT:
+    if isinstance(parcel_args['puissance'], str) \
+            and represents_int(parcel_args['puissance']) \
+            and int(parcel_args['puissance']) > POSTGRES_INT_LIMIT:
         parcel_args['puissance'] = 0
 
     for k, v in parcel_args.iteritems():
@@ -656,3 +658,11 @@ def _path_insensitive(path):
         return os.path.join(dirname, basefinal) + suffix
     else:
         return
+
+
+def represents_int(s):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
