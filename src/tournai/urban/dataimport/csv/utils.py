@@ -5,6 +5,7 @@ import os
 import ConfigParser as configparser
 
 import unicodedata
+from DateTime import DateTime
 from plone.i18n.normalizer import idnormalizer
 from plone import api
 import transaction
@@ -203,6 +204,7 @@ def create_notary_letters():
                                            file=doc_content)
             if cpt_nl and cpt_nl % int(commit_range) == 0:
                 transaction.commit()
+                register_import_transaction('NOTARY LETTER IMPORT', 'to letter:' + cpt_nl)
     # with open("nl_parcel_file_found.csv", "a") as file:
     #     file.write("Doc trouvés :," + str(cpt_nl) + "\n")
     #     file.write("Doc avec parcelle trouvée :," + str(cptFound_nl) + "\n")
@@ -671,3 +673,30 @@ def represents_int(s):
         return True
     except ValueError:
         return False
+
+
+def register_import_transaction(self, name, description):
+    """
+    Store the import transaction on an annotation so we can undo it later
+    """
+    historic = api.portal.get().__urbandataimport__
+    import_transaction = transaction.get()
+    import_transaction.note(name)
+    date = DateTime()
+    import_transaction.note(
+        u'line {description}       date: {date} - {time}'.format(
+            description=description,
+            date=date.strftime('%d/%m/%Y'),
+            time=date.Time(),
+        )
+    )
+
+    historic_id = 'locality.urban.dataimport.import_historic:%s' % name
+    import_value = import_transaction.description
+    import_key = date.micros()
+    if historic_id not in historic:
+        import_historic = historic[historic_id] = {}
+    else:
+        import_historic = historic[historic_id]
+    import_historic[import_key] = import_value
+    historic[historic_id] = dict(import_historic)
