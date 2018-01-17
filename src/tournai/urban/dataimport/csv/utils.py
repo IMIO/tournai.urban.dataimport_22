@@ -204,7 +204,7 @@ def create_notary_letters():
                                            file=doc_content)
             if cpt_nl and cpt_nl % int(commit_range) == 0:
                 transaction.commit()
-                register_import_transaction('NOTARY LETTER IMPORT', 'to letter:' + cpt_nl)
+                register_import_transaction('NOTARY LETTER IMPORT', 'to letter:' + str(cpt_nl))
     # with open("nl_parcel_file_found.csv", "a") as file:
     #     file.write("Doc trouvés :," + str(cpt_nl) + "\n")
     #     file.write("Doc avec parcelle trouvée :," + str(cptFound_nl) + "\n")
@@ -675,7 +675,7 @@ def represents_int(s):
         return False
 
 
-def register_import_transaction(self, name, description):
+def register_import_transaction(name, description):
     """
     Store the import transaction on an annotation so we can undo it later
     """
