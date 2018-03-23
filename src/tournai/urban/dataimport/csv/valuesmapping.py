@@ -13,6 +13,7 @@ VALUES_MAPS = {
         'MiscDemand'         : ['deliberation-college', '', 'depot-de-la-demande'],
         'EnvClassTwo'        : ['custom', '', 'depot-de-la-demande'], #event != octroi/refus
         'EnvClassThree'      : ['custom', '', 'depot-de-la-demande-de-cl3'], #event != octroi/refus/cond
+        'PatrimonyCertificate':['decision', '', 'depot-de-la-demande'],
     }),
 
     'solicitOpinionDictionary': {

@@ -484,7 +484,8 @@ def get_decision_from_raw_conclusion(rawConclusion):
 
     if 'REFUS' in upperConclusion or 'DEFAVORABLE' in upperConclusion:
         return u"defavorable"
-    elif 'AUTORISATION' in upperConclusion or 'FAVORABLE' in upperConclusion or 'APPROUVE' in upperConclusion:
+    elif 'AUTORISATION' in upperConclusion or 'FAVORABLE' in upperConclusion or 'APPROUVE' in upperConclusion \
+            or 'DELIVRE' in upperConclusion:
         return u"favorable"
     # elif 'RETIRE' in upperConclusion or 'ANNULE' in upperConclusion:
     #     return 'u"Annulé"'
@@ -503,6 +504,7 @@ def get_custom_event(rawConclusion, type):
             return "decision"
         elif 'REFUS' in upperConclusion or 'ANNULE' in upperConclusion or 'RETIRE' in upperConclusion:
             return "decision-pour-refus"
+
 
 def delete_csv_report_files():
 

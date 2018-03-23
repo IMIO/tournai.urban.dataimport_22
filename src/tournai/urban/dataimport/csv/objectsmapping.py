@@ -38,7 +38,7 @@ FIELDS_MAPPINGS = {
             },
 
             ReferenceMapper: {
-                'from': ('DOSNUM', 'ANNEE', 'GENRE'),
+                'from': ('DOSNUM', 'ANNEE', 'GENRE', 'CONCLUSION'),
                 'to': 'reference',
             },
 
@@ -53,12 +53,12 @@ FIELDS_MAPPINGS = {
             },
 
             WorklocationMapper: {
-                'from': ('BIENADR', 'BIENNUM', 'BIENCOD', 'BIENCOM'),
+                'from': ('BIENADR', 'BIENNUM', 'BIENCOD', 'BIENCOM', 'TYPE'),
                 'to': 'workLocations',
             },
 
            ArchitectMapper: {
-               'allowed_containers': ['BuildLicence'],
+               'allowed_containers': ['BuildLicence', 'PatrimonyCertificate'],
                'from': ('ARCHNOM', 'ARCHADR', 'ARCHCOM'),
                'to': ('architects',)
            },
@@ -189,7 +189,7 @@ FIELDS_MAPPINGS = {
                 },
                 {
                     'from': ('DEMCOM'),
-                    'to': 'locality',
+                    'to': 'city',
                 },
                 {
                     'from': 'TITREA',
@@ -207,7 +207,7 @@ FIELDS_MAPPINGS = {
     'DECISION EVENT':
     {
         'factory': [UrbanEventFactory],
-        'allowed_containers': ['BuildLicence', 'Declaration', 'Division', 'UrbanCertificateOne', 'MiscDemand'],
+        'allowed_containers': ['BuildLicence', 'Declaration', 'Division', 'UrbanCertificateOne', 'MiscDemand', 'PatrimonyCertificate'],
 
         'mappers': {
             DecisionEventTypeMapper: {

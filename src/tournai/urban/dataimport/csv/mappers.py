@@ -62,6 +62,13 @@ class IdMapper(Mapper):
 
 class ReferenceMapper(Mapper):
     def mapReference(self, line):
+
+        rawConclusion = self.getData('CONCLUSION')
+        if rawConclusion:
+            self.logError(self, line, 'Conclusion :', {
+                'conclusion': rawConclusion,
+            })
+
         title = 'ARCHIVE'
         object1 = self.getData('GENRE')
         object2 = self.getData('ANNEE')
@@ -92,6 +99,8 @@ class PortalTypeMapper(Mapper):
                 portal_type = 'Declaration'
             elif genre.startswith('ECI') or genre.startswith('PE'):
                 portal_type = 'EnvClassTwo'
+            elif genre.startswith('CP'):
+                portal_type = 'PatrimonyCertificate'
             elif genre.startswith('INF') or genre.startswith('PEU') or \
                 genre.startswith('PSE') or genre.startswith('SAR') or \
                 genre.startswith('ASS') or genre.startswith('CP') or \
@@ -116,6 +125,7 @@ class WorklocationMapper(Mapper):
         num = self.getData('BIENNUM')
         noisy_words = set(('d', 'du', 'de', 'des', 'le', 'la', 'les', 'à', ',', 'rues', 'terrain', 'terrains', 'garage', 'magasin', 'entrepôt'))
         raw_street = self.getData('BIENADR')
+        type = self.getData('TYPE')
         if raw_street.endswith(')'):
             raw_street = raw_street[:-5]
         street = cleanAndSplitWord(raw_street)
@@ -131,7 +141,7 @@ class WorklocationMapper(Mapper):
             return ({'street': brains[0].UID, 'number': num},)
         if street:
             self.logError(self, line, 'Couldnt find street or found too much streets', {
-                'address': '%s, %s, %s ' % (num, raw_street, locality),
+                'address': '%s, %s %s, %s ' % (num, type, raw_street, locality),
                 'street': street_keywords,
                 'search result': len(brains)
             })
@@ -513,7 +523,9 @@ class ErrorsMapper(FinalMapper):
                 elif 'rubric' in error.message.lower():
                     error_trace.append('<p>Rubrique non trouvée : %s</p>' % (data['rubric']))
                 elif 'internship' in error.message.lower():
-                            error_trace.append('<p>Encodé par le stagiaire Mathieu V</p>')
+                    error_trace.append('<p>Encodé par le stagiaire Mathieu V</p>')
+                elif 'conclusion' in error.message.lower():
+                            error_trace.append('<p>Conclusion : %s</p>' % data['conclusion'])
         error_trace = ''.join(error_trace)
 
         return '%s%s' % (error_trace, description)
@@ -921,7 +933,15 @@ class DecisionDateMapper(Mapper):
             datetime.datetime.strptime(dateDecision, "%d/%m/%Y")
             return dateDecision
         except ValueError:
-            raise NoObjectToCreateException
+            try:
+                dd = datetime.datetime.strptime(dateDecision, "%d/%m/%y")
+                # the cutoff is 68 - 69 for two digits year ambiguity
+                if dd.year > 2018:
+                    dd = dd.replace(year=dd.year - 100)
+                    dateDecision = dd.strftime("%d/%m/%Y")
+                return dateDecision
+            except ValueError:
+                raise NoObjectToCreateException
 
 
 class DecisionEventDecisionMapper(Mapper):
@@ -949,7 +969,15 @@ class DecisionEventDateMapper(Mapper):
             datetime.datetime.strptime(dateDecisionNotif, "%d/%m/%Y")
             return dateDecisionNotif
         except ValueError:
-            raise NoObjectToCreateException
+            try:
+                dd = datetime.datetime.strptime(dateDecisionNotif, "%d/%m/%y")
+                # the cutoff is 68 - 69 for two digits year ambiguity
+                if dd.year > 2018:
+                    dd = dd.replace(year=dd.year - 100)
+                dateDecisionNotif = dd.strftime("%d/%m/%Y")
+                return dateDecisionNotif
+            except ValueError:
+                raise NoObjectToCreateException
 
 
 class DepositEventTypeMapper(Mapper):
